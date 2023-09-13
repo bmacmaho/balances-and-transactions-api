@@ -98,7 +98,77 @@
           }
         }
       }
-    }
+    },
+    "/historical-balances": {
+      "get": {
+        "security": [
+          {
+            "xApiKey": []
+          }
+        ],
+        "description": "Get a list of balances in a given timeframe. \n\nExample call: /historical-balances?from=2022-01-03&to=2022-01-05&sort=desc",
+        "parameters": [
+          {
+            "name": "from",
+            "description": "Start date in YYYY-MM-DD format",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            }
+          },
+          {
+            "name": "to",
+            "description": "End date in YYYY-MM-DD format",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            }
+          },
+          {
+            "name": "sort",
+            "description": "Sort type (asc, desc, or over)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc", "over"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                      "type": "object",
+                      "properties": {
+                        "amount": {
+                          "type": "number"
+                        },
+                        "date": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "enum": [
+                            "EUR"
+                          ]
+                        }
+                      }
+                  }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
   },
   "components": {
     "securitySchemes": {
